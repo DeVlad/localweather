@@ -14,7 +14,7 @@ function locationRequest() {
             // $("#lon").text(lon);
             // $("#lat").text(lat);
             //todo check values lon lat     
-            // weatherRequest();
+            weatherRequest();
         }
     });
 };
@@ -41,8 +41,8 @@ function weatherRequest() {
             console.log("TEMP:", temperature);
             console.log("Location:", location)
                 // $("h2").html(JSON.stringify(response));
-            $("h3").html(sky);
-            $("h4").html(temperature);
+            $("#sky").html(sky);
+            $("#temperature").html(temperature);
             $("#location").html(location);
             //$("p").html(url);
             /*  
@@ -63,5 +63,4 @@ function weatherRequest() {
 $("#button").click(function () {
     // locationRequest();
     weatherRequest();
-    console.log("clicked");
 });
