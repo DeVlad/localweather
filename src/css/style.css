@@ -1,3 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+body {
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 h1 {
     font-size: 26px;
 }
@@ -8,4 +20,8 @@ h1 {
 
 #temperature {
     font-size: 18px;
+}
+
+.text-center {
+    text-align: center;
 }
