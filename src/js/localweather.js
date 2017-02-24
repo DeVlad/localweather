@@ -29,16 +29,19 @@ function weatherRequest() {
         dataType: 'jsonp',
         success: function (response) {
             console.log(response);
+            //console.log("TEMP:", temperature);
+            //console.log("Location:", location)
             //render data        
             var sky = response.weather[0].main;
             var temperature = Math.round(Number(response.main.temp));
             var location = response.name;
-            console.log("TEMP:", temperature);
-            console.log("Location:", location)
-                // $("h2").html(JSON.stringify(response));
-            $("#sky").html(sky);
-            $("#temperature").html(temperature);
+            var icon = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
+            var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed;
             $("#location").html(location);
+            $('#icon').prepend('<img id="theImg" src="' + icon + '" />');
+            $("#temperature").html(temperature);
+            $("#sky").html(sky);
+            $("#wind").html(wind);
             //$("p").html(url);
             /*  
             Idea - to do wind direction 
@@ -63,4 +66,13 @@ function setBackground() {
     var condition = 'thunderstorm';
     var url = "url('img/" + condition + ".jpg')";
     document.body.style.backgroundImage = url;
+}
+// Wind Direction
+function getWindDirection(degrees) {
+    if (degrees < 0 || degrees > 360) {
+        return "";
+    }
+    var x = Math.floor((degrees / 22.5) + 0.5);
+    var directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return directions[x % 16];
 }
