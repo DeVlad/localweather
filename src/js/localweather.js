@@ -1,17 +1,18 @@
 // Locaton
+//TODO: Promise race between multiple location APIs
 function locationRequest() {
     $.ajax({
         url: "http://ip-api.com/json/",
         dataType: 'jsonp',
         success: function (response) {
             //TODO: Fail and check values lon lat. Make function.
-            console.log(response);
+            //console.log(response);
             lat = response.lat;
             lon = response.lon;
             //Test - USA, New York, Central Park
             //lon = -73.96;
             //lat = 40.78;
-            //response.country = "United States";                    
+            // response.country = "United States";
             units = "metric"; // imperial                          
             displayTempUnits = "<span class='units'>&#8451<span>";
             displayWindUnits = "meter/sec";
@@ -35,6 +36,7 @@ function weatherRequest() {
         success: function (response) {
             console.log(response);
             //Render data
+            setBackground(response.weather[0].id);
             var sky = response.weather[0].main;
             var temperature = String(Math.round(Number(response.main.temp))) + displayTempUnits;
             var description = response.weather[0].description;
@@ -42,7 +44,7 @@ function weatherRequest() {
             var icon = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
             var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed + " " + displayWindUnits;
             $("#location").html(location);
-            $('#icon').prepend('<img id="theImg" src="' + icon + '" />');
+            $("#icon").prepend('<img id="theImg" src="' + icon + '" />');
             $("#temperature").html(temperature);
             $("#sky").html(sky);
             $("#description").html(description);
@@ -57,7 +59,6 @@ function weatherRequest() {
                 response.sys.country // "BG"
                         .name //Pleven                    
             */
-            setBackground();
         }
     });
 }
@@ -67,8 +68,47 @@ $("#button").click(function () {
     weatherRequest();
 });
 // Background image change
-function setBackground() {
-    var condition = 'thunderstorm';
+function setBackground(id) {
+    var condition = "default";
+    if (id == 800) {
+        condition = "clear-sky";
+    }
+    if (id >= 300 && id <= 531) {
+        // 3xx: Drizzle & Group 5xx: Rain
+        condition = "rain";
+    }
+    else if (id >= 801 && id <= 804) {
+        // 80x
+        if (id == 801) {
+            condition = "few clouds";
+        }
+        if (id == 802) {
+            condition = "scattered-clouds";
+        }
+        if (id == 803) {
+            condition = "broken-clouds";
+        }
+        if (id == 804) {
+            condition = "overcast-clouds";
+        }
+    }
+    else if (id >= 600 && id <= 622) {
+        // 6xx: Snow
+        condition = "snow";
+    }
+    else if (id >= 200 && id <= 232) {
+        // 2xx: Thunderstorm
+        condition = "thunderstorm";
+    }
+    else if (id >= 900 && id <= 906) {
+        // 90x: Extreme
+        if (id == 904) {
+            condition = "hot";
+        }
+        if (id == 905) {
+            condition = "windy";
+        }
+    }
     var url = "url('img/" + condition + ".jpg')";
     document.body.style.backgroundImage = url;
 }
