@@ -4,21 +4,22 @@ function locationRequest() {
         url: "http://ip-api.com/json/",
         dataType: 'jsonp',
         success: function (response) {
+            //TODO: Fail and check values lon lat. Make function.
             console.log(response);
-            //lat = String(response.lat);
-            //lon = String(response.lon);
             lat = response.lat;
             lon = response.lon;
-            //TODO: Fail and check values lon lat
-            //country = ""; // change to response.country           
+            //Test - USA, New York, Central Park
+            //lon = -73.96;
+            //lat = 40.78;
+            //response.country = "United States";                    
             units = "metric"; // imperial                          
             displayTempUnits = "<span class='units'>&#8451<span>";
-            displayWindUnits = "m/sec";
+            displayWindUnits = "meter/sec";
             // Imerial system country list - USA , Liberia, Myanmar
             if (response.country == "United States" || response.country == "Liberia" || response.country == "Myanmar [Burma]") {
-                units = "imperial"; // imperial                          
+                units = "imperial"; // Imperial                          
                 displayTempUnits = "<span class='units'>&#8457<span>";
-                displayWindUnits = "knots";
+                displayWindUnits = "miles/hour";
             }
             weatherRequest();
         }
@@ -33,11 +34,10 @@ function weatherRequest() {
         dataType: 'jsonp',
         success: function (response) {
             console.log(response);
-            //console.log("TEMP:", temperature);
-            //console.log("Location:", location)
-            //render data        
+            //Render data
             var sky = response.weather[0].main;
             var temperature = String(Math.round(Number(response.main.temp))) + displayTempUnits;
+            var description = response.weather[0].description;
             var location = response.name;
             var icon = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
             var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed + " " + displayWindUnits;
@@ -45,10 +45,11 @@ function weatherRequest() {
             $('#icon').prepend('<img id="theImg" src="' + icon + '" />');
             $("#temperature").html(temperature);
             $("#sky").html(sky);
+            $("#description").html(description);
             $("#wind").html(wind);
             //$("p").html(url);
             /*  
-            Idea - to do wind direction 
+            Idea - to do 
                 response.main.humidity
                 response.pressure
                 response.weather.description //Clouds
