@@ -34,7 +34,7 @@ function weatherRequest() {
         url: "http://api.openweathermap.org/data/2.5/weather?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "units=" + units + "&" + "appid=6a98c6183cbd635f197b040460d18089",
         dataType: 'jsonp',
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             //Render data
             setBackground(response.weather[0].id);
             var sky = response.weather[0].main;
@@ -49,24 +49,22 @@ function weatherRequest() {
             $("#sky").html(sky);
             $("#description").html(description);
             $("#wind").html(wind);
-            //$("p").html(url);
-            /*  
-            Idea - to do 
+            /*  TODO:         
                 response.main.humidity
-                response.pressure
-                response.weather.description //Clouds
-                response.weather.description //Overcast Clouds                
-                response.sys.country // "BG"
-                        .name //Pleven                    
+                response.pressure                            
             */
         }
     });
 }
-// Refresh data on click
-$("#button").click(function () {
-    // locationRequest();
-    weatherRequest();
-});
+// Wind Direction
+function getWindDirection(degrees) {
+    if (degrees < 0 || degrees > 360) {
+        return "";
+    }
+    var x = Math.floor((degrees / 22.5) + 0.5);
+    var directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return directions[x % 16];
+}
 // Background image change
 function setBackground(id) {
     var condition = "default";
@@ -112,12 +110,11 @@ function setBackground(id) {
     var url = "url('img/" + condition + ".jpg')";
     document.body.style.backgroundImage = url;
 }
-// Wind Direction
-function getWindDirection(degrees) {
-    if (degrees < 0 || degrees > 360) {
-        return "";
-    }
-    var x = Math.floor((degrees / 22.5) + 0.5);
-    var directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-    return directions[x % 16];
-}
+// Refresh data on click
+/*
+$("#button").click(function () {
+    // locationRequest();
+    weatherRequest();
+});
+
+*/
