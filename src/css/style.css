@@ -14,14 +14,30 @@ h1 {
     font-size: 26px;
 }
 
-#sky {
+#location {
+    padding-top: 30px;
+    padding-bottom: 10px;
     font-size: 20px;
 }
 
+#sky {
+    font-size: 20px;
+    padding-bottom: 5px;
+}
+
 #temperature {
-    font-size: 18px;
+    font-size: 38px;
 }
 
 .text-center {
     text-align: center;
+}
+
+.transparent {
+    background: rgba(0, 0, 0, .5);
+}
+
+.units {
+    font-size: 20px;
+    vertical-align: super;
 }

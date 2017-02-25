@@ -9,21 +9,25 @@ function locationRequest() {
             //lon = String(response.lon);
             lat = response.lat;
             lon = response.lon;
-            // $("#lon").text(lon);
-            // $("#lat").text(lat);
-            //TODO: Fail and check values lon lat   
+            //TODO: Fail and check values lon lat
+            //country = ""; // change to response.country           
+            units = "metric"; // imperial                          
+            displayTempUnits = "<span class='units'>&#8451<span>";
+            displayWindUnits = "m/sec";
+            // Imerial system country list - USA , Liberia, Myanmar
+            if (response.country == "United States" || response.country == "Liberia" || response.country == "Myanmar [Burma]") {
+                units = "imperial"; // imperial                          
+                displayTempUnits = "<span class='units'>&#8457<span>";
+                displayWindUnits = "knots";
+            }
             weatherRequest();
         }
     });
 };
 locationRequest();
-// To Do language? - &lang={lang} 
-// &units=metric
-// "&lang=bg&"
+
 function weatherRequest() {
-    //console.log("wr", lat, lon);
     // TODO if lat and lon are not present throw error
-    var units = "metric";
     var url = $.ajax({
         url: "http://api.openweathermap.org/data/2.5/weather?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "units=" + units + "&" + "appid=6a98c6183cbd635f197b040460d18089",
         dataType: 'jsonp',
@@ -33,10 +37,10 @@ function weatherRequest() {
             //console.log("Location:", location)
             //render data        
             var sky = response.weather[0].main;
-            var temperature = Math.round(Number(response.main.temp));
+            var temperature = String(Math.round(Number(response.main.temp))) + displayTempUnits;
             var location = response.name;
             var icon = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
-            var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed;
+            var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed + " " + displayWindUnits;
             $("#location").html(location);
             $('#icon').prepend('<img id="theImg" src="' + icon + '" />');
             $("#temperature").html(temperature);
