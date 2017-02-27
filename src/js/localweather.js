@@ -2,13 +2,14 @@
 //TODO: Promise race between multiple location APIs
 function locationRequest() {
     $.ajax({
-        url: "http://ip-api.com/json/",
+        url: "https://ip.nf/me.json",
         dataType: 'jsonp',
         success: function (response) {
-            //TODO: Fail and check values lon lat. Make function.
-            //console.log(response);
-            lat = response.lat;
-            lon = response.lon;
+            //TODO: Fail and check values lon lat. Make function.            
+            //lat = response.lat;
+            //lon = response.lon;            
+            lat = response.ip.latitude;
+            lon = response.ip.longitude;
             //Test - USA, New York, Central Park
             //lon = -73.96;
             //lat = 40.78;
@@ -17,7 +18,7 @@ function locationRequest() {
             displayTempUnits = "<span class='units'>&#8451<span>";
             displayWindUnits = "meter/sec";
             // Imerial system country list - USA , Liberia, Myanmar
-            if (response.country == "United States" || response.country == "Liberia" || response.country == "Myanmar [Burma]") {
+            if (response.ip.country == "United States" || response.ip.country == "Liberia" || response.ip.country == "Myanmar") {
                 units = "imperial"; // Imperial                          
                 displayTempUnits = "<span class='units'>&#8457<span>";
                 displayWindUnits = "miles/hour";
@@ -116,5 +117,4 @@ $("#button").click(function () {
     // locationRequest();
     weatherRequest();
 });
-
 */
