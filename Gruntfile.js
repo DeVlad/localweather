@@ -125,8 +125,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-w3c-html-validation');
     grunt.loadNpmTasks('grunt-postcss');
-    grunt.loadNpmTasks('grunt-newer');
-    grunt.loadNpmTasks('grunt-img');
+    //grunt.loadNpmTasks('grunt-newer');
+    //grunt.loadNpmTasks('grunt-img');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-processhtml');

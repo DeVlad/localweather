@@ -14,12 +14,12 @@ function locationRequest() {
             //lon = -73.96;
             //lat = 40.78;
             // response.country = "United States";
-            units = "metric"; // imperial                          
+            units = "metric";
             displayTempUnits = "<span class='units'>&#8451<span>";
             displayWindUnits = "meter/sec";
             // Imerial system country list - USA , Liberia, Myanmar
             if (response.ip.country == "United States" || response.ip.country == "Liberia" || response.ip.country == "Myanmar") {
-                units = "imperial"; // Imperial                          
+                units = "imperial";
                 displayTempUnits = "<span class='units'>&#8457<span>";
                 displayWindUnits = "miles/hour";
             }
@@ -43,7 +43,14 @@ function weatherRequest() {
             var description = response.weather[0].description;
             var location = response.name;
             var icon = "http://openweathermap.org/img/w/" + response.weather[0].icon + ".png";
-            var wind = getWindDirection(response.wind.deg) + " " + response.wind.speed + " " + displayWindUnits;
+            var wind = "";
+            if (response.wind.deg !== undefined) {
+                wind = getWindDirection(response.wind.deg) + " " + response.wind.speed + " " + displayWindUnits;
+            }
+            // If no wind direction
+            else {
+                wind = response.wind.speed + " " + displayWindUnits;
+            }
             $("#location").html(location);
             $("#icon").prepend('<img id="theImg" src="' + icon + '" />');
             $("#temperature").html(temperature);
