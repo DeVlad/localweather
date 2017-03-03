@@ -115,6 +115,15 @@ function setBackground(id) {
             condition = "windy";
         }
     }
+    else if (id >= 701 && id <= 781) {
+        // 7xx: Atmosphere
+        if (id == 701) {
+            condition = "mist";
+        }
+        if (id == 741) {
+            condition = "fog";
+        }
+    }
     var url = "url('img/" + condition + ".jpg')";
     document.body.style.backgroundImage = url;
 }
