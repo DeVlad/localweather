@@ -5,15 +5,12 @@ function locationRequest() {
         url: "https://ip.nf/me.json",
         dataType: 'jsonp',
         success: function (response) {
-            //TODO: Fail and check values lon lat. Make function.            
-            //lat = response.lat;
-            //lon = response.lon;            
             lat = response.ip.latitude;
             lon = response.ip.longitude;
             //Test - USA, New York, Central Park
             //lon = -73.96;
             //lat = 40.78;
-            // response.country = "United States";
+            //response.ip.country = "United States";
             units = "metric";
             displayTempUnits = "<span class='units'>&#8451<span>";
             displayWindUnits = "meter/sec";
@@ -24,13 +21,15 @@ function locationRequest() {
                 displayWindUnits = "miles/hour";
             }
             weatherRequest();
+        },
+        error: function () {
+            errorPage("Cannot find location");
         }
     });
 };
 locationRequest();
 
 function weatherRequest() {
-    // TODO if lat and lon are not present throw error
     var url = $.ajax({
         url: "http://api.openweathermap.org/data/2.5/weather?" + "lat=" + lat + "&" + "lon=" + lon + "&" + "units=" + units + "&" + "appid=6a98c6183cbd635f197b040460d18089",
         dataType: 'jsonp',
@@ -56,11 +55,15 @@ function weatherRequest() {
             $("#temperature").html(temperature);
             $("#sky").html(sky);
             $("#description").html(description);
+            $("#wind-title").html('Wind');
             $("#wind").html(wind);
             /*  TODO:         
                 response.main.humidity
                 response.pressure                            
             */
+        },
+        error: function () {
+            errorPage("Cannot get current weather");
         }
     });
 }
@@ -86,7 +89,7 @@ function setBackground(id) {
     else if (id >= 801 && id <= 804) {
         // 80x
         if (id == 801) {
-            condition = "few clouds";
+            condition = "few-clouds";
         }
         if (id == 802) {
             condition = "scattered-clouds";
@@ -127,10 +130,7 @@ function setBackground(id) {
     var url = "url('img/" + condition + ".jpg')";
     document.body.style.backgroundImage = url;
 }
-// Refresh data on click
-/*
-$("#button").click(function () {
-    // locationRequest();
-    weatherRequest();
-});
-*/
+// Error display
+function errorPage(message) {
+    $("#description").html(message);
+}
