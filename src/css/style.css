@@ -48,3 +48,28 @@ h1 {
 .text {
     font-size: 18px;
 }
+
+/* Phones 240 x 320 - Nokia 230, Nokia 215, Samsung Xcover 550, LG G350  */
+
+@media screen and (max-width: 240px) and (max-height:320px) {
+    
+    h1 {
+        display: none;
+    }
+    #location {
+        font-size: 14px;
+    }
+    #sky {
+    font-size: 14px;
+}
+    
+    #temperature{
+        font-size: 28px;
+    }
+    .units {
+        font-size: 14px;
+    }
+    .text {
+    font-size: 14px;
+}
+}
